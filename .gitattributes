@@ -1,0 +1,120 @@
+# ==========================================
+# Default text handling
+# ==========================================
+
+* text=auto
+
+# Platform-specific line endings
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
+
+*.sh  text eol=lf
+*.bash text eol=lf
+*.zsh text eol=lf
+
+# ==========================================
+# Unreal Engine text files
+# ==========================================
+
+*.uproject text
+*.uplugin  text
+*.ini      text
+*.config   text
+*.json     text
+*.xml      text
+*.csv      text
+*.txt      text
+*.md       text
+
+# ==========================================
+# C++ / C# / shader source
+# ==========================================
+
+*.h     text
+*.hpp   text
+*.c     text
+*.cpp   text
+*.cc    text
+*.cxx   text
+*.cs    text
+*.csproj text
+
+*.usf   text
+*.ush   text
+*.hlsl  text
+*.glsl  text
+
+# ==========================================
+# Unreal Engine binary assets
+# ==========================================
+
+*.uasset binary
+*.umap   binary
+*.ubulk  binary
+*.uexp   binary
+*.uptnl  binary
+
+# ==========================================
+# Common binary assets
+# ==========================================
+
+# Images / textures
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.tga  binary
+*.tif  binary
+*.tiff binary
+*.bmp  binary
+*.exr  binary
+*.hdr  binary
+*.psd  binary
+*.xcf  binary
+
+# Models / animation / DCC
+*.fbx   binary
+*.obj   binary
+*.blend binary
+*.3ds   binary
+*.abc   binary
+*.gltf  binary
+*.glb   binary
+*.ma    binary
+*.mb    binary
+
+# Audio
+*.wav  binary
+*.ogg  binary
+*.mp3  binary
+*.flac binary
+*.aif  binary
+*.aiff binary
+
+# Video
+*.mp4  binary
+*.mov  binary
+*.webm binary
+*.avi  binary
+*.mkv  binary
+
+# Fonts
+*.ttf   binary
+*.otf   binary
+*.woff  binary
+*.woff2 binary
+
+# Archives / packages
+*.zip binary
+*.7z  binary
+*.rar binary
+*.gz  binary
+*.tar binary
+
+# Libraries / compiled binaries
+*.dll binary
+*.so  binary
+*.dylib binary
+*.lib binary
+*.a   binary
+*.exe binary

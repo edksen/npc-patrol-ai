@@ -1,0 +1,90 @@
+# ==========================================
+# Unreal Engine generated files
+# ==========================================
+
+Binaries/
+Intermediate/
+Saved/
+DerivedDataCache/
+
+# Plugin generated files
+Plugins/**/Binaries/
+Plugins/**/Intermediate/
+Plugins/**/Saved/
+Plugins/**/DerivedDataCache/
+
+# Optional: local developer scratch content
+Content/Developers/
+
+# ==========================================
+# IDE / generated project files
+# ==========================================
+
+.vs/
+.idea/
+.vscode/
+
+*.sln
+*.suo
+*.opensdf
+*.sdf
+*.VC.db
+*.VC.opendb
+*.xcodeproj
+*.xcworkspace
+
+# Rider / ReSharper user files
+*.sln.DotSettings.user
+
+# ==========================================
+# Build/package output
+# ==========================================
+
+ArchivedBuilds/
+Builds/
+Packages/
+Releases/
+
+*.exe
+*.app
+*.ipa
+*.apk
+*.aab
+
+# ==========================================
+# Logs / crash dumps
+# ==========================================
+
+*.log
+*.tmp
+*.dmp
+
+# ==========================================
+# OS files
+# ==========================================
+
+.DS_Store
+.DS_Store?
+.AppleDouble
+.LSOverride
+._*
+
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+*~
+.directory
+
+# ==========================================
+# Secrets / signing keys
+# ==========================================
+
+*.keystore
+*.jks
+*.p12
+*.pem
+*.key
+*.mobileprovision
+.env
+.env.*
