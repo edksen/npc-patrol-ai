@@ -35,6 +35,7 @@ Content/Developers/
 
 # Rider / ReSharper user files
 *.sln.DotSettings.user
+*.uproject.DotSettings.user
 
 # ==========================================
 # Build/package output
