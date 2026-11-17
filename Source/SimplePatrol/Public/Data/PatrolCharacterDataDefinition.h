@@ -24,6 +24,9 @@ public:
 	
 	UPROPERTY(EditAnywhere, Category="PatrolMesh")
 	TSoftObjectPtr<UStaticMesh> PatrolArmStaticMesh;
+
+	UPROPERTY(EditAnywhere, Category="PatrolMesh")
+	FName PatrolWeaponSocket = TEXT("ik_hand_gun");
 	
 	UPROPERTY(EditAnywhere, Category="PatrolAnimation")
 	TSoftObjectPtr<UAnimBlueprint> PatrolCharacterAnim;
