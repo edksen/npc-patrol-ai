@@ -27,42 +27,39 @@ void UPatrolNpcsSystem::RegisterPatrolNpcActor(APatrolCharacter* PatrolNpcActor)
 	if (PatrolNpcActor)
 	{
 		PatrolNpcs.Add(PatrolNpcActor);
-		SetUpPatrolNpc(PatrolNpcActor);
+		UPatrolCharacterDataDefinition* PatrolCharacterDataDefinition = nullptr;
+		APatrolCharacterRoute* PatrolCharacterRoute = nullptr;
+		
+		if(GetPatrolDataForID(PatrolNpcActor->ID, PatrolCharacterDataDefinition, PatrolCharacterRoute))
+			PatrolNpcActor->ApplyPatrolDataDefinition(PatrolCharacterDataDefinition, PatrolCharacterRoute);
 	}
 }
 
-void UPatrolNpcsSystem::SetUpPatrolNpc(APatrolCharacter* PatrolNpcActor) const
+void UPatrolNpcsSystem::UnregisterPatrolNpcActor(APatrolCharacter* PatrolNpcActor)
+{
+	if (PatrolNpcActor)
+	{
+		PatrolNpcs.Remove(PatrolNpcActor);
+	}
+}
+
+bool UPatrolNpcsSystem::GetPatrolDataForID(const FName& PatrolID, UPatrolCharacterDataDefinition*& PatrolCharacterDataDefinitionOut, APatrolCharacterRoute*& PatrolCharacterRouteOut) const
 {
 	FPatrolCharacterData PatrolCharacterDataFromConfig;
-	if(!GetPatrolCharacterDataFromConfig(PatrolNpcActor->ID, PatrolCharacterDataFromConfig))
-		return;
-	
-	FSoftObjectPath PatrolDefinitionPath = PatrolCharacterDataFromConfig.PatrolDefinitionData.ToSoftObjectPath();
-	if (!PatrolDefinitionPath.IsNull())
+	if(GetPatrolCharacterDataFromConfig(PatrolID, PatrolCharacterDataFromConfig))
 	{
-		const UPatrolCharacterDataDefinition* PatrolCharacterDataDefinition = PatrolCharacterDataFromConfig.PatrolDefinitionData.LoadSynchronous();
-		check(PatrolCharacterDataDefinition != nullptr);
-		
-		if (USkeletalMeshComponent* PatrolNpcMesh = PatrolNpcActor->GetMesh())
+		FSoftObjectPath PatrolDefinitionPath = PatrolCharacterDataFromConfig.PatrolDefinitionData.ToSoftObjectPath();
+		if (!PatrolDefinitionPath.IsNull())
 		{
-			const auto PatrolMesh = PatrolCharacterDataDefinition->PatrolMeshComponent.LoadSynchronous();
-			const auto PatrolWeaponMesh = PatrolCharacterDataDefinition->PatrolArmStaticMesh.LoadSynchronous();
+			PatrolCharacterDataDefinitionOut = PatrolCharacterDataFromConfig.PatrolDefinitionData.LoadSynchronous();
+			PatrolCharacterRouteOut = PatrolCharacterDataFromConfig.PatrolCharacterRoute.LoadSynchronous();
 			
-			const auto PatrolAnimation = PatrolCharacterDataDefinition->PatrolCharacterAnim.LoadSynchronous();
-			check(PatrolAnimation != nullptr);
-			const auto PatrolAnimBlueprintClass = PatrolAnimation ->GetAnimBlueprintGeneratedClass();
-			
-			check(PatrolMesh != nullptr);
-			check(PatrolWeaponMesh != nullptr);
-			check(PatrolAnimBlueprintClass != nullptr);
-			
-			PatrolNpcMesh->SetSkeletalMeshAsset(PatrolMesh);
-			PatrolNpcMesh->SetAnimInstanceClass(PatrolAnimBlueprintClass);
-			PatrolNpcActor->SetWeaponMesh(PatrolWeaponMesh, PatrolCharacterDataDefinition->PatrolWeaponSocket);
+			return ensureMsgf(PatrolCharacterDataDefinitionOut && PatrolCharacterRouteOut,
+				TEXT("Patrol ID '%s': Something went wrong loading Definition or Route"), *PatrolID.ToString());
 		}
-		
-		//TODO Add rout setup here
 	}
+	
+	return ensureMsgf(false, TEXT("Patrol ID '%s': Can't find data for ID"), *PatrolID.ToString());
 }
 
 bool UPatrolNpcsSystem::GetPatrolCharacterDataFromConfig(const FName& PatrolId, FPatrolCharacterData& PatrolCharacterDataOut) const

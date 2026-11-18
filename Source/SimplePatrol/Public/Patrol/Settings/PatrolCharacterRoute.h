@@ -5,16 +5,16 @@
 #include "CoreMinimal.h"
 #include "Components/SplineComponent.h"
 #include "GameFramework/Actor.h"
-#include "PatrolCharacterRout.generated.h"
+#include "PatrolCharacterRoute.generated.h"
 
 UCLASS(BlueprintType, Blueprintable)
-class SIMPLEPATROL_API APatrolCharacterRout : public AActor
+class SIMPLEPATROL_API APatrolCharacterRoute : public AActor
 {
 	GENERATED_BODY()
 	
 public:
 	// Sets default values for this actor's properties
-	APatrolCharacterRout();
+	APatrolCharacterRoute();
 	
 	UFUNCTION(Blueprintable, BlueprintType)
 	FVector3d GetStartPosition() const
@@ -25,16 +25,16 @@ public:
 	UFUNCTION(Blueprintable, BlueprintType)
 	void GetPatrolRoutPoints(TArray<FVector3d>& PatrolRoutPoints) const;
 	
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Rout")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Route")
 	TObjectPtr<USplineComponent> SplineComponent;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Rout")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Route")
 	int RoutDistanceMultiplier = 1;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="RoutParameters")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="RouteParameters")
 	bool bLoop;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="RoutParameters")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="RouteParameters")
 	bool bReverseOnEnd;
 
 };

@@ -23,10 +23,10 @@ public:
 	TSoftObjectPtr<USkeletalMesh> PatrolMeshComponent;
 	
 	UPROPERTY(EditAnywhere, Category="PatrolMesh")
-	TSoftObjectPtr<UStaticMesh> PatrolArmStaticMesh;
+	TSoftObjectPtr<USkeletalMesh> PatrolArmSkeletalMesh;
 
 	UPROPERTY(EditAnywhere, Category="PatrolMesh")
-	FName PatrolWeaponSocket = TEXT("ik_hand_gun");
+	FName PatrolWeaponSocket = TEXT("HandGrip_R");
 	
 	UPROPERTY(EditAnywhere, Category="PatrolAnimation")
 	TSoftObjectPtr<UAnimBlueprint> PatrolCharacterAnim;

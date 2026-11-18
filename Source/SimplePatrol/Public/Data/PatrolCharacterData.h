@@ -5,11 +5,11 @@
 #include "CoreMinimal.h"
 #include "Engine/DataTable.h"
 #include "PatrolCharacterDataDefinition.h"
-#include "Patrol/Settings/PatrolCharacterRout.h"
+#include "Patrol/Settings/PatrolCharacterRoute.h"
 #include "PatrolCharacterData.generated.h"
 
 class UPatrolCharacterDataDefinition;
-class APatrolCharacterRout;
+class APatrolCharacterRoute;
 
 USTRUCT(BlueprintType, Blueprintable)
 struct FPatrolCharacterData: public FTableRowBase
@@ -22,7 +22,7 @@ struct FPatrolCharacterData: public FTableRowBase
 	UPROPERTY(EditAnywhere, Category="PatrolData")
 	TSoftObjectPtr<UPatrolCharacterDataDefinition> PatrolDefinitionData;
 	
-	UPROPERTY(EditAnywhere, Category="RoutData")
-	TSoftObjectPtr<APatrolCharacterRout> PatrolCharacterRout;
+	UPROPERTY(EditAnywhere, Category="RouteData")
+	TSoftObjectPtr<APatrolCharacterRoute> PatrolCharacterRoute;
 };
 

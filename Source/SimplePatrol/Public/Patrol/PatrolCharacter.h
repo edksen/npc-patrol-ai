@@ -3,8 +3,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Components/StaticMeshComponent.h"
+#include "Data/PatrolCharacterDataDefinition.h"
 #include "GameFramework/Character.h"
+#include "Settings/PatrolCharacterRoute.h"
 #include "PatrolCharacter.generated.h"
 
 UCLASS(BlueprintType, Blueprintable)
@@ -19,16 +20,21 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
-	void SetWeaponMesh(UStaticMesh* InWeaponMesh, FName SocketName) const;
 	
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Patrol")
+	void ApplyPatrolDataDefinition(const UPatrolCharacterDataDefinition* PatrolCharacterDataDefinition, APatrolCharacterRoute* PatrolCharacterRoute);
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Patrol")
 	FName ID;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Patrol")
-	TObjectPtr<UStaticMeshComponent> WeaponMesh;
+	TObjectPtr<USkeletalMeshComponent> WeaponMesh;
+	
+private:
+	void SetWeaponMesh(USkeletalMesh* InWeaponMesh, FName SocketName) const;
 };

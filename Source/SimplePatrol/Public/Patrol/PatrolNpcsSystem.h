@@ -23,10 +23,13 @@ public:
 	virtual void OnWorldBeginPlay(UWorld& InWorld) override;
 	
 	void RegisterPatrolNpcActor(APatrolCharacter* PatrolNpcActor);
+	void UnregisterPatrolNpcActor(APatrolCharacter* PatrolNpcActor);
 	
 private:
 	bool GetPatrolCharacterDataFromConfig(const FName& PatrolId, FPatrolCharacterData& PatrolCharacterDataOut) const;
-	void SetUpPatrolNpc(APatrolCharacter* PatrolNpcActor) const;
+	bool GetPatrolDataForID(const FName& PatrolID,
+		UPatrolCharacterDataDefinition*& PatrolCharacterDataDefinitionOut,
+		APatrolCharacterRoute*& PatrolCharacterRouteOut) const;
 	
 public:
 	UPROPERTY(BlueprintReadOnly, Category="Patrol")
