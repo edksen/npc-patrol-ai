@@ -29,7 +29,8 @@ private:
 	bool GetPatrolCharacterDataFromConfig(const FName& PatrolId, FPatrolCharacterData& PatrolCharacterDataOut) const;
 	bool GetPatrolDataForID(const FName& PatrolID,
 		UPatrolCharacterDataDefinition*& PatrolCharacterDataDefinitionOut,
-		APatrolCharacterRoute*& PatrolCharacterRouteOut) const;
+		APatrolCharacterRoute*& PatrolCharacterRouteOut,
+		UPatrolBehaviorDataDefinition*& PatrolBehaviorDataDefinitionOut) const;
 	
 public:
 	UPROPERTY(BlueprintReadOnly, Category="Patrol")

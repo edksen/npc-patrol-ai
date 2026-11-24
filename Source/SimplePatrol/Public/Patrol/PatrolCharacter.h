@@ -3,6 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "BehaviorTree/BehaviorTree.h"
+#include "Data/PatrolBehaviorDataDefinition.h"
 #include "Data/PatrolCharacterDataDefinition.h"
 #include "GameFramework/Character.h"
 #include "Settings/PatrolCharacterRoute.h"
@@ -27,7 +29,7 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 	
-	void ApplyPatrolDataDefinition(const UPatrolCharacterDataDefinition* PatrolCharacterDataDefinition, APatrolCharacterRoute* PatrolCharacterRoute);
+	void ApplyPatrolDataDefinition(const UPatrolCharacterDataDefinition* PatrolCharacterDataDefinition, APatrolCharacterRoute* PatrolCharacterRoute, const UPatrolBehaviorDataDefinition* PatrolBehaviorDataDefinition);
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Patrol")
 	FName ID;

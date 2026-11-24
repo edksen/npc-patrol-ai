@@ -10,11 +10,27 @@ APatrolCharacterRoute::APatrolCharacterRoute()
 	RootComponent = SplineComponent;
 }
 
-void APatrolCharacterRoute::GetPatrolRoutPoints(TArray<FVector3d>& PatrolRoutPoints) const
+FVector APatrolCharacterRoute::GetStartPosition() const
 {
-	int32 SplinePointsNumber = SplineComponent->GetNumberOfSplinePoints();
-	for (int32 SplinePoint = 0; SplinePoint < SplinePointsNumber; SplinePoint++)
+	if (GetPointCount() == 0)
 	{
-		PatrolRoutPoints.Add(SplineComponent->GetLocationAtSplinePoint(SplinePoint, ESplineCoordinateSpace::World) * RoutDistanceMultiplier);
+		return GetActorLocation();
 	}
+
+	return GetPointAt(0);
+}
+
+int32 APatrolCharacterRoute::GetPointCount() const
+{
+	return SplineComponent ? SplineComponent->GetNumberOfSplinePoints() : 0;
+}
+
+FVector APatrolCharacterRoute::GetPointAt(int32 PointIndex) const
+{
+	if (!SplineComponent || PointIndex < 0 || PointIndex >= SplineComponent->GetNumberOfSplinePoints())
+	{
+		return GetActorLocation();
+	}
+
+	return SplineComponent->GetLocationAtSplinePoint(PointIndex, ESplineCoordinateSpace::World);
 }

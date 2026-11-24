@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "AIController.h"
+#include "Components/StateTreeAIComponent.h"
 #include "Settings/PatrolCharacterRoute.h"
 #include "PatrolNpcAIController.generated.h"
 
@@ -15,13 +16,23 @@ class SIMPLEPATROL_API APatrolNpcAIController : public AAIController
 {
 	GENERATED_BODY()
 public:
-	void SetPatrolRoute(APatrolCharacterRoute* PatrolRouteData)
-	{
-		check(PatrolRouteData != nullptr);
-		PatrolRoute = PatrolRouteData;
-	}
+	APatrolNpcAIController();
+	void SetPatrolRouteData(APatrolCharacterRoute* PatrolRouteData);
+	
+	void SetPatrolBehavior(UObject* PatrolBehavior);
+	
+	UFUNCTION(BlueprintCallable, Category="Patrol")
+	bool TryGetPatrolLocation(FVector& PatrolLocationOut);
 	
 private:
-	UPROPERTY()
+	void SetAIStateTree(UStateTree* AIStateTree) const;
+	
+	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<APatrolCharacterRoute> PatrolRoute;
+	
+	UPROPERTY(VisibleAnywhere)
+	TObjectPtr<UStateTreeAIComponent> StateTreeComponent;
+
+	int32 CurrentPointIndex = 0;
+	int32 Direction = 1;
 };

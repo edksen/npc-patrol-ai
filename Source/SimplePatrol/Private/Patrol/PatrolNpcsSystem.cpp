@@ -29,9 +29,10 @@ void UPatrolNpcsSystem::RegisterPatrolNpcActor(APatrolCharacter* PatrolNpcActor)
 		PatrolNpcs.Add(PatrolNpcActor);
 		UPatrolCharacterDataDefinition* PatrolCharacterDataDefinition = nullptr;
 		APatrolCharacterRoute* PatrolCharacterRoute = nullptr;
+		UPatrolBehaviorDataDefinition* PatrolBehaviorDataDefinition = nullptr;
 		
-		if(GetPatrolDataForID(PatrolNpcActor->ID, PatrolCharacterDataDefinition, PatrolCharacterRoute))
-			PatrolNpcActor->ApplyPatrolDataDefinition(PatrolCharacterDataDefinition, PatrolCharacterRoute);
+		if(GetPatrolDataForID(PatrolNpcActor->ID, PatrolCharacterDataDefinition, PatrolCharacterRoute, PatrolBehaviorDataDefinition))
+			PatrolNpcActor->ApplyPatrolDataDefinition(PatrolCharacterDataDefinition, PatrolCharacterRoute, PatrolBehaviorDataDefinition);
 	}
 }
 
@@ -43,7 +44,7 @@ void UPatrolNpcsSystem::UnregisterPatrolNpcActor(APatrolCharacter* PatrolNpcActo
 	}
 }
 
-bool UPatrolNpcsSystem::GetPatrolDataForID(const FName& PatrolID, UPatrolCharacterDataDefinition*& PatrolCharacterDataDefinitionOut, APatrolCharacterRoute*& PatrolCharacterRouteOut) const
+bool UPatrolNpcsSystem::GetPatrolDataForID(const FName& PatrolID, UPatrolCharacterDataDefinition*& PatrolCharacterDataDefinitionOut, APatrolCharacterRoute*& PatrolCharacterRouteOut, UPatrolBehaviorDataDefinition*& PatrolBehaviorDataDefinitionOut) const
 {
 	FPatrolCharacterData PatrolCharacterDataFromConfig;
 	if(GetPatrolCharacterDataFromConfig(PatrolID, PatrolCharacterDataFromConfig))
@@ -53,8 +54,9 @@ bool UPatrolNpcsSystem::GetPatrolDataForID(const FName& PatrolID, UPatrolCharact
 		{
 			PatrolCharacterDataDefinitionOut = PatrolCharacterDataFromConfig.PatrolDefinitionData.LoadSynchronous();
 			PatrolCharacterRouteOut = PatrolCharacterDataFromConfig.PatrolCharacterRoute.LoadSynchronous();
+			PatrolBehaviorDataDefinitionOut = PatrolCharacterDataFromConfig.PatrolBehaviorDataDefinition.LoadSynchronous();
 			
-			return ensureMsgf(PatrolCharacterDataDefinitionOut && PatrolCharacterRouteOut,
+			return ensureMsgf(PatrolCharacterDataDefinitionOut && PatrolCharacterRouteOut && PatrolBehaviorDataDefinitionOut,
 				TEXT("Patrol ID '%s': Something went wrong loading Definition or Route"), *PatrolID.ToString());
 		}
 	}

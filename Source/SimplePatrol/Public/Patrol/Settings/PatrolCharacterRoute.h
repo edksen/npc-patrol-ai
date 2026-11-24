@@ -7,34 +7,37 @@
 #include "GameFramework/Actor.h"
 #include "PatrolCharacterRoute.generated.h"
 
+UENUM(BlueprintType)
+enum class EPatrolRouteTraversal : uint8
+{
+	Once,
+	Loop,
+	PingPong
+};
+
 UCLASS(BlueprintType, Blueprintable)
 class SIMPLEPATROL_API APatrolCharacterRoute : public AActor
 {
 	GENERATED_BODY()
 	
 public:
-	// Sets default values for this actor's properties
 	APatrolCharacterRoute();
-	
-	UFUNCTION(Blueprintable, BlueprintType)
-	FVector3d GetStartPosition() const
-	{
-		return GetTransform().GetLocation();
-	}
-	
-	UFUNCTION(Blueprintable, BlueprintType)
-	void GetPatrolRoutPoints(TArray<FVector3d>& PatrolRoutPoints) const;
+
+	UFUNCTION(BlueprintCallable, Category="Route")
+	FVector GetStartPosition() const;
+
+	UFUNCTION(BlueprintCallable, Category="Route")
+	int32 GetPointCount() const;
+
+	UFUNCTION(BlueprintCallable, Category="Route")
+	FVector GetPointAt(int32 PointIndex) const;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Route")
 	TObjectPtr<USplineComponent> SplineComponent;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Route")
-	int RoutDistanceMultiplier = 1;
+	EPatrolRouteTraversal Traversal = EPatrolRouteTraversal::Loop;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="RouteParameters")
-	bool bLoop;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="RouteParameters")
-	bool bReverseOnEnd;
-
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Route")
+	float MaximumWalkSpeed = 200.f;
 };

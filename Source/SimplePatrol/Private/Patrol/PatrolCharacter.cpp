@@ -2,6 +2,8 @@
 
 
 #include "Patrol/PatrolCharacter.h"
+
+#include "GameFramework/CharacterMovementComponent.h"
 #include "Patrol/PatrolNpcAIController.h"
 #include "Patrol/PatrolNpcsSystem.h"
 
@@ -30,7 +32,7 @@ void APatrolCharacter::SetWeaponMesh(USkeletalMesh* InWeaponMesh, FName SocketNa
 	WeaponMesh->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, SocketName);
 }
 
-void APatrolCharacter::ApplyPatrolDataDefinition(const UPatrolCharacterDataDefinition* PatrolCharacterDataDefinition, APatrolCharacterRoute* PatrolCharacterRoute)
+void APatrolCharacter::ApplyPatrolDataDefinition(const UPatrolCharacterDataDefinition* PatrolCharacterDataDefinition, APatrolCharacterRoute* PatrolCharacterRoute, const UPatrolBehaviorDataDefinition* PatrolBehaviorDataDefinition)
 {
 	if (USkeletalMeshComponent* PatrolNpcMesh = GetMesh())
 	{
@@ -52,8 +54,18 @@ void APatrolCharacter::ApplyPatrolDataDefinition(const UPatrolCharacterDataDefin
 	
 	if(APatrolNpcAIController* AIController = Cast<APatrolNpcAIController>(GetController()))
 	{
-		AIController->SetPatrolRoute(PatrolCharacterRoute);
+		auto* CharacterMovementComponent = GetCharacterMovement();
+		CharacterMovementComponent->MaxWalkSpeed = PatrolCharacterRoute->MaximumWalkSpeed;
+		CharacterMovementComponent->bOrientRotationToMovement = true;
+		CharacterMovementComponent->RotationRate = FRotator(CharacterMovementComponent->RotationRate.Pitch, 120.f, CharacterMovementComponent->RotationRate.Roll);
+		
+		AIController->SetPatrolRouteData(PatrolCharacterRoute);
 		SetActorLocation(PatrolCharacterRoute->GetStartPosition());
+
+		if (UObject* Behavior = PatrolBehaviorDataDefinition->PatrolBehavior.LoadSynchronous())
+		{
+			AIController->SetPatrolBehavior(Behavior);
+		}
 	}
 }
 
